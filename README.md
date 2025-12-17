@@ -10,12 +10,14 @@ Chega de perder tempo pensando como vai organizar estruturalmente a arquitetura 
 
 GoFoundry nasce para resolver exatamente esse gargalo inicial que todo projeto em Go enfrenta. Você quer começar a codar, mas perde horas decidindo pastas, nomes, padrões e convenções.
 
-Este projeto é inspirado nos modelos MVC e MTV, porém com uma abordagem pensada para Go. Nada de copiar frameworks de outras linguagens. Aqui a estrutura respeita simplicidade, composição e organização clara, sem magia escondida.
+Inspirado em MVC e MTV, mas adaptado à realidade do Go.
+Sem gambiarras, sem estrutura Frankenstein.
+Simplicidade, código idiomático e organização clara.
 
-Resultado
+Resultado:
 Menos decisão inútil
 Mais código entregue
-Arquitetura consistente desde o primeiro commit
+Arquitetura consistente desde o primeiro passo!
 
 ## Como instalar
 
