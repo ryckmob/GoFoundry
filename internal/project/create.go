@@ -1,0 +1,43 @@
+package project
+
+import (
+	"fmt"
+	"os"
+	"os/exec"
+
+	"github.com/ryckmob/GoFoundry/internal/common"
+)
+
+func CreateProject(name string) error {
+	base := name
+
+	dirs := []string{
+		base + "/cmd",
+		base + "/internal",
+		base + "/internal/apps",
+		base + "/internal/http",
+	}
+
+	for _, d := range dirs {
+		if err := os.MkdirAll(d, 0755); err != nil {
+			return err
+		}
+	}
+
+	if err := common.CreateFile(base+"/cmd/main.go", mainTemplate(name)); err != nil {
+		return err
+	}
+	if err := common.CreateFile(base+"/internal/http/routes.go", mainRoutesTemplate(name)); err != nil {
+		return err
+	}
+
+	// Inicializa o módulo Go
+	cmd := exec.Command("go", "mod", "init", name)
+	cmd.Dir = base
+	if output, err := cmd.CombinedOutput(); err != nil {
+		return fmt.Errorf("erro ao rodar go mod init: %v\n%s", err, string(output))
+	}
+
+	fmt.Println("Projeto criado e go.mod inicializado:", name)
+	return nil
+}
