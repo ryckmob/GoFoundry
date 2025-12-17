@@ -38,6 +38,14 @@ func CreateProject(name string) error {
 		return fmt.Errorf("erro ao rodar go mod init: %v\n%s", err, string(output))
 	}
 
-	fmt.Println("Projeto criado e go.mod inicializado:", name)
+	// go mod tidy
+	cmd = exec.Command("go", "mod", "tidy")
+	cmd.Dir = base
+	if output, err := cmd.CombinedOutput(); err != nil {
+		return fmt.Errorf("erro ao executar go mod tidy: %v\n%s", err, string(output))
+	}
+
+	fmt.Println("Dependências instaladas com sucesso.")
+	fmt.Println("Projeto inicializado e pronto para desenvolvimento.")
 	return nil
 }
