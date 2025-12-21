@@ -48,7 +48,12 @@ func CreateApp(name string) error {
 	if err := common.CreateFile(base+"/models.go", modelTemplate(name)); err != nil {
 		return err
 	}
-	if err := common.CreateFile(base+"/handlers.go", handlerTemplate(name)); err != nil {
+	code, err := handlerTemplate(name)
+	if err != nil {
+		return err
+	}
+
+	if err := common.CreateFile(base+"/handlers.go", code); err != nil {
 		return err
 	}
 	if err := common.CreateFile(base+"/routes.go", routeTemplate(name)); err != nil {

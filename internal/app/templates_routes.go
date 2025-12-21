@@ -13,8 +13,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// RegisterRoutes registra as rotas do Fiber
 func RegisterRoutes(r fiber.Router) {
-	r.Get("/%s", Get%s)
+	r.Post("/%s", Insert%sHandler)
 }
 `, name, name, common.Capitalize(name))
 }

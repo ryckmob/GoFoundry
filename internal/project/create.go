@@ -16,6 +16,7 @@ func CreateProject(name string) error {
 		base + "/internal",
 		base + "/internal/apps",
 		base + "/internal/http",
+		base + "/database",
 	}
 
 	for _, d := range dirs {
@@ -31,14 +32,16 @@ func CreateProject(name string) error {
 		return err
 	}
 
-	// Inicializa o módulo Go
+	if err := common.CreateFile(base+"/database/connection.go", databaseConnectionTemplate()); err != nil {
+		return err
+	}
+
 	cmd := exec.Command("go", "mod", "init", name)
 	cmd.Dir = base
 	if output, err := cmd.CombinedOutput(); err != nil {
 		return fmt.Errorf("erro ao rodar go mod init: %v\n%s", err, string(output))
 	}
 
-	// go mod tidy
 	cmd = exec.Command("go", "mod", "tidy")
 	cmd.Dir = base
 	if output, err := cmd.CombinedOutput(); err != nil {

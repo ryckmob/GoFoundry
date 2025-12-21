@@ -9,8 +9,12 @@ import (
 func modelTemplate(name string) string {
 	return fmt.Sprintf(`package %s
 
-type %s struct {
-	ID uint `+"`gorm:\"primaryKey\"`"+`
+type %sModel struct {
+	ID     uint
+	Teste1 string
+	Teste2 int
+	Teste3 float64
+	//altere os campos
 }
 `, name, common.Capitalize(name))
 }

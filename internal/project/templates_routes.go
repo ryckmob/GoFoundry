@@ -5,12 +5,14 @@ func mainRoutesTemplate(project string) string {
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"` + project + `/internal/apps/app-example"
+	//"` + project + `/internal/apps/<app-example>"
 )
 
 func RegisterAll(app *fiber.App) {
-	// Nenhuma rota registrada ainda
-	// app-example.RegisterRoutes(app)
+	// Registre aqui as rotas de cada app
+	// Substitua <app-example> pelo nome do app criado
+	// Exemplo:
+	// User.RegisterRoutes(app)
 }
 `
 }
