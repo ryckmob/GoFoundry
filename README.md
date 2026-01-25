@@ -12,20 +12,33 @@ GoFoundry nasce para resolver exatamente esse gargalo inicial que todo projeto e
 
 Resultado: Menos decisão inútil, Mais código entregue, Arquitetura consistente desde o primeiro passo;
 
-<div style="background-color:#eef4ff; border-radius:8px; padding:12px 16px; border:1px solid #c7d7ff; font-family:Arial, sans-serif;">
-  <strong>Atenção</strong><br>
-  Todo app criado com o GoFoundry precisa ser registrado manualmente em <code>internal\http\routes.go</code>.<br>
+<table width="100%" bgcolor="#eef4ff">
+  <tr>
+    <td style="padding:12px;">
+      <strong>⚠️ Aviso!</strong><br>
+      Todo app criado com o GoFoundry precisa ser registrado manualmente em <code>internal\http\routes.go</code>.<br>
   Se não importar o app e chamar o <code>RegisterRoutes</code>, nenhuma rota será exposta, mesmo com o servidor rodando.
-</div>
+    </td>
+  </tr>
+</table>
+
+<br><br>
 
 
 GoFoundry is a command line tool written in Go designed to speed up backend development. It creates the project structure, generates apps, and automatically writes full CRUD code from a single command. You define the app name and struct fields, and it generates models, handlers, services, routes, and database integration following a consistent pattern. The goal is to eliminate repetitive work and human error. Instead of wasting time on boilerplate code, you focus on business logic. Pure productivity, no hidden magic.
 
-<div style="background-color:#eef4ff; border-radius:8px; padding:12px 16px; border:1px solid #c7d7ff; font-family:Arial, sans-serif;">
-  <strong>Warning</strong><br>
-  Every app created with GoFoundry must be manually registered in <code>internal\http\routes.go</code>.<br>
-  If you don’t import the app and call <code>RegisterRoutes</code>, no routes will be exposed, even if the server is running.
-</div>
+<table width="100%" bgcolor="#eef4ff">
+  <tr>
+    <td style="padding:12px;">
+      <strong>⚠️ Warning</strong><br>
+      Every app created with GoFoundry must be manually registered in <code>internal/http/routes.go</code>.<br>
+      If you don’t import the app and call <code>RegisterRoutes</code>, no routes will be exposed, even if the server is running.
+    </td>
+  </tr>
+</table>
+
+<br><br>
+
 
 
 ## Como instalar
