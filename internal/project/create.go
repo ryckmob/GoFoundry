@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/ryckmob/GoFoundry/environment"
 	"github.com/ryckmob/GoFoundry/internal/common"
 )
 
@@ -34,6 +35,12 @@ func CreateProject(name string) error {
 
 	if err := common.CreateFile(base+"/database/connection.go", databaseConnectionTemplate()); err != nil {
 		return err
+	}
+
+	err := environment.CreateEnv(name)
+	if err != nil {
+		fmt.Println("erro ao criar .env:", err)
+		os.Exit(1)
 	}
 
 	cmd := exec.Command("go", "mod", "init", name)

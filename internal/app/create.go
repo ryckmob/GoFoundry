@@ -92,6 +92,76 @@ func parseFields(args []string) ([]Field, error) {
 	return fields, nil
 }
 
+// Gera o SQL da tabela baseado nos fields
+func schemaSQL(name string, fields []Field) string {
+	tableName := strings.ToLower(name) // tabela em minúsculas
+	var lines []string
+
+	// Cria tabela formatada
+	lines = append(lines, "CREATE TABLE "+tableName+" (")
+	lines = append(lines, "  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,")
+
+	for i, f := range fields {
+		colName := strings.ToLower(f.Name)
+		var colType string
+		switch f.Type {
+		case "string":
+			colType = "VARCHAR(255) NOT NULL"
+		case "int", "int32", "int64":
+			colType = "INT NOT NULL"
+		case "float32", "float64":
+			colType = "FLOAT NOT NULL"
+		case "bool":
+			colType = "TINYINT(1) NOT NULL"
+		case "byte", "rune":
+			colType = "VARCHAR(10) NOT NULL"
+		case "time.Time":
+			colType = "DATETIME NOT NULL"
+		default:
+			colType = "VARCHAR(255) NOT NULL"
+		}
+
+		line := fmt.Sprintf("  %s %s", colName, colType)
+		if i < len(fields)-1 {
+			line += ","
+		}
+		lines = append(lines, line)
+	}
+
+	lines = append(lines, ");")
+	lines = append(lines, "")
+
+	// Cria comando único em uma linha e comenta de forma elegante
+	singleLine := "CREATE TABLE " + tableName + " (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY"
+	for _, f := range fields {
+		colName := strings.ToLower(f.Name)
+		var colType string
+		switch f.Type {
+		case "string":
+			colType = "VARCHAR(255) NOT NULL"
+		case "int", "int32", "int64":
+			colType = "INT NOT NULL"
+		case "float32", "float64":
+			colType = "FLOAT NOT NULL"
+		case "bool":
+			colType = "TINYINT(1) NOT NULL"
+		case "byte", "rune":
+			colType = "VARCHAR(10) NOT NULL"
+		case "time.Time":
+			colType = "DATETIME NOT NULL"
+		default:
+			colType = "VARCHAR(255) NOT NULL"
+		}
+		singleLine += ", " + colName + " " + colType
+	}
+	singleLine += ");"
+
+	lines = append(lines, "-- Para criar esta tabela em uma única execução, utilize o comando abaixo:")
+	lines = append(lines, "-- "+singleLine)
+
+	return strings.Join(lines, "\n")
+}
+
 func CreateApp(name string, rawFields []string) error {
 	appsBase, err := findAppsDir(".")
 	if err != nil {
@@ -111,19 +181,28 @@ func CreateApp(name string, rawFields []string) error {
 		}
 	}
 
+	// Cria models.go
 	if err := common.CreateFile(base+"/models.go", modelTemplate(name, fields)); err != nil {
 		return err
 	}
 
+	// Cria handlers.go
 	code, err := handlerTemplate(name, fields)
 	if err != nil {
 		return err
 	}
-
 	if err := common.CreateFile(base+"/handlers.go", code); err != nil {
 		return err
 	}
+
+	// Cria routes.go
 	if err := common.CreateFile(base+"/routes.go", routeTemplate(name)); err != nil {
+		return err
+	}
+
+	// Cria schema.sql
+	sql := schemaSQL(name, fields)
+	if err := common.CreateFile(base+"/schema.sql", sql); err != nil {
 		return err
 	}
 

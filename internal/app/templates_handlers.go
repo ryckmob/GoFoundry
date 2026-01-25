@@ -15,7 +15,7 @@ func handlerTemplate(name string, fields []Field) (string, error) {
 
 	importPath := project + "/database"
 	typeName := common.Capitalize(name)
-	tableName := name + "s"
+	tableName := name
 
 	var (
 		columns     []string

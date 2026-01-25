@@ -31,6 +31,7 @@ func main() {
 
 	switch command {
 	case "new":
+
 		err = project.CreateProject(name)
 		if err != nil {
 			break
