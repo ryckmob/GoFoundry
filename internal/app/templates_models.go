@@ -2,19 +2,28 @@ package app
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/ryckmob/GoFoundry/internal/common"
 )
 
-func modelTemplate(name string) string {
+func modelTemplate(name string, fields []Field) string {
+	var body strings.Builder
+
+	body.WriteString("\tID uint\n")
+
+	if len(fields) == 0 {
+		body.WriteString("\tNome string\n")
+		body.WriteString("\tAtivo bool\n")
+	} else {
+		for _, f := range fields {
+			body.WriteString(fmt.Sprintf("\t%s %s\n", f.Name, f.Type))
+		}
+	}
+
 	return fmt.Sprintf(`package %s
 
 type %sModel struct {
-	ID     uint
-	Teste1 string
-	Teste2 int
-	Teste3 float64
-	//altere os campos
-}
-`, name, common.Capitalize(name))
+%s}
+`, name, common.Capitalize(name), body.String())
 }
