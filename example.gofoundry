@@ -1,0 +1,39 @@
+Project farma_ryck
+
+app medicamentos --struct nome:string principio_ativo:string concentracao:string controlado:bool ativo:bool
+
+app categorias --struct nome:string ativo:bool
+
+app fabricantes --struct nome:string pais:string ativo:bool
+
+app fornecedores --struct nome:string cnpj:string telefone:string ativo:bool
+
+app lotes --struct codigo:string validade:time.Time quantidade:int ativo:bool
+
+app estoque --struct medicamento:string lote:string quantidade:int ativo:bool
+
+app movimentacoes_estoque --struct tipo:string quantidade:int data:time.Time ativo:bool
+
+app clientes --struct nome:string cpf:string nascimento:time.Time ativo:bool
+
+app convenios --struct nome:string registro:string ativo:bool
+
+app medicos --struct nome:string crm:string ativo:bool
+
+app receitas --struct cliente:string medico:string data:time.Time ativo:bool
+
+app vendas --struct cliente:string total:float64 data:time.Time ativo:bool
+
+app itens_venda --struct venda:string medicamento:string quantidade:int preco_unitario:float64 ativo:bool
+
+app formas_pagamento --struct nome:string ativo:bool
+
+app caixa --struct data:time.Time abertura:float64 fechamento:float64 ativo:bool
+
+app sangrias --struct valor:float64 data:time.Time ativo:bool
+
+app suprimentos --struct valor:float64 data:time.Time ativo:bool
+
+app funcionarios --struct nome:string cargo:string admissao:time.Time ativo:bool
+
+app usuarios --struct nome:string login:string senha:string ativo:bool

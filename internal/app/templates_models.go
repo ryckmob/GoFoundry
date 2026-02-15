@@ -9,6 +9,19 @@ import (
 
 func modelTemplate(name string, fields []Field) string {
 	var body strings.Builder
+	var imports []string
+	usesTime := false
+
+	for _, f := range fields {
+		if f.Type == "time.Time" {
+			usesTime = true
+			break
+		}
+	}
+
+	if usesTime {
+		imports = append(imports, `"time"`)
+	}
 
 	body.WriteString("\tID uint\n")
 
@@ -21,9 +34,19 @@ func modelTemplate(name string, fields []Field) string {
 		}
 	}
 
+	var importBlock string
+	if len(imports) > 0 {
+		importBlock = "import (\n"
+		for _, imp := range imports {
+			importBlock += "\t" + imp + "\n"
+		}
+		importBlock += ")\n\n"
+	}
+
 	return fmt.Sprintf(`package %s
 
+%s
 type %sModel struct {
 %s}
-`, name, common.Capitalize(name), body.String())
+`, name, importBlock, common.Capitalize(name), body.String())
 }

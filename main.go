@@ -8,6 +8,7 @@ import (
 
 	"github.com/ryckmob/GoFoundry/internal/app"
 	"github.com/ryckmob/GoFoundry/internal/project"
+	projectfromfile "github.com/ryckmob/GoFoundry/internal/project_from_file"
 )
 
 const (
@@ -61,6 +62,13 @@ func main() {
 		fields := parseStructArgs(os.Args)
 		err = app.CreateApp(name, fields)
 
+	case "startproject":
+		if len(os.Args) < 3 {
+			fmt.Println("erro: informe o arquivo .gofoundry")
+			return
+		}
+		err = projectfromfile.Run(os.Args[2])
+
 	default:
 		usage()
 		return
@@ -99,7 +107,33 @@ func askLowercaseName(initial string) string {
 }
 
 func usage() {
-	fmt.Println("uso:")
-	fmt.Println("  gofoundry new <nome-do-projeto>")
-	fmt.Println("  gofoundry app <nome-do-app>")
+	fmt.Println()
+	fmt.Println(bold + cyan + "GoFoundry CLI" + reset)
+	fmt.Println(blue + "gerador de projetos e apps em Go" + reset)
+	fmt.Println()
+
+	fmt.Println(bold + "uso:" + reset)
+	fmt.Println()
+
+	fmt.Println(green + "  gofoundry new <nome-do-projeto>" + reset)
+	fmt.Println("    cria a estrutura base de um novo projeto")
+	fmt.Println()
+
+	fmt.Println(green + "  gofoundry app <nome-do-app>" + reset)
+	fmt.Println("    cria um app vazio dentro do projeto atual")
+	fmt.Println()
+
+	fmt.Println(green + "  gofoundry app <nome-do-app> --struct nome:string idade:int ativo:bool" + reset)
+	fmt.Println("    cria um app já com a struct definida")
+	fmt.Println()
+
+	fmt.Println(green + "  gofoundry startproject <arquivo.gofoundry>" + reset)
+	fmt.Println("    cria um projeto completo a partir de um único arquivo declarativo")
+	fmt.Println()
+
+	fmt.Println(cyan + "dica:" + reset)
+	fmt.Println("  o comando startproject cria toda a estrutura do sistema de forma automática;")
+	fmt.Println("  gera models, rotas e CRUDs prontos a partir de um único arquivo.")
+	fmt.Println("  veja um exemplo do arquivo .gofoundry no repositório do GitHub")
+	fmt.Println()
 }
